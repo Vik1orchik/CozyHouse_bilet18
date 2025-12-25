@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище УютныйДомModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Материал">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование" Type="nvarchar" MaxLength="30" />
+          <Property Name="ЦенаЗаКвМетр" Type="float" />
+        </EntityType>
+        <EntityType Name="Покупка">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ДатаПокупки" Type="datetime" />
+        </EntityType>
+        <EntityType Name="СоставПокупки">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Материал" Type="int" />
+          <Property Name="Ширина" Type="float" />
+          <Property Name="Длина" Type="float" />
+          <Property Name="Сумма" Type="float" />
+          <Property Name="Покупка" Type="int" />
+        </EntityType>
+        <Association Name="FK_СоставПокупки_Материал">
+          <End Role="Материал" Type="Self.Материал" Multiplicity="0..1" />
+          <End Role="СоставПокупки" Type="Self.СоставПокупки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Материал">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="СоставПокупки">
+              <PropertyRef Name="Материал" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СоставПокупки_Покупка">
+          <End Role="Покупка" Type="Self.Покупка" Multiplicity="0..1" />
+          <End Role="СоставПокупки" Type="Self.СоставПокупки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Покупка">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="СоставПокупки">
+              <PropertyRef Name="Покупка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище УютныйДомModelContainer">
+          <EntitySet Name="Материал" EntityType="Self.Материал" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Покупка" EntityType="Self.Покупка" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="СоставПокупки" EntityType="Self.СоставПокупки" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_СоставПокупки_Материал" Association="Self.FK_СоставПокупки_Материал">
+            <End Role="Материал" EntitySet="Материал" />
+            <End Role="СоставПокупки" EntitySet="СоставПокупки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СоставПокупки_Покупка" Association="Self.FK_СоставПокупки_Покупка">
+            <End Role="Покупка" EntitySet="Покупка" />
+            <End Role="СоставПокупки" EntitySet="СоставПокупки" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="УютныйДомModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Материал">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ЦенаЗаКвМетр" Type="Double" />
+          <NavigationProperty Name="СоставПокупки" Relationship="Self.FK_СоставПокупки_Материал" FromRole="Материал" ToRole="СоставПокупки" />
+        </EntityType>
+        <EntityType Name="Покупка">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ДатаПокупки" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="СоставПокупки" Relationship="Self.FK_СоставПокупки_Покупка" FromRole="Покупка" ToRole="СоставПокупки" />
+        </EntityType>
+        <EntityType Name="СоставПокупки">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Материал" Type="Int32" />
+          <Property Name="Ширина" Type="Double" />
+          <Property Name="Длина" Type="Double" />
+          <Property Name="Сумма" Type="Double" />
+          <Property Name="Покупка" Type="Int32" />
+          <NavigationProperty Name="Материал1" Relationship="Self.FK_СоставПокупки_Материал" FromRole="СоставПокупки" ToRole="Материал" />
+          <NavigationProperty Name="Покупка1" Relationship="Self.FK_СоставПокупки_Покупка" FromRole="СоставПокупки" ToRole="Покупка" />
+        </EntityType>
+        <Association Name="FK_СоставПокупки_Материал">
+          <End Role="Материал" Type="Self.Материал" Multiplicity="0..1" />
+          <End Role="СоставПокупки" Type="Self.СоставПокупки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Материал">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="СоставПокупки">
+              <PropertyRef Name="Материал" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СоставПокупки_Покупка">
+          <End Role="Покупка" Type="Self.Покупка" Multiplicity="0..1" />
+          <End Role="СоставПокупки" Type="Self.СоставПокупки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Покупка">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="СоставПокупки">
+              <PropertyRef Name="Покупка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="УютныйДомEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Материал" EntityType="Self.Материал" />
+          <EntitySet Name="Покупка" EntityType="Self.Покупка" />
+          <EntitySet Name="СоставПокупки" EntityType="Self.СоставПокупки" />
+          <AssociationSet Name="FK_СоставПокупки_Материал" Association="Self.FK_СоставПокупки_Материал">
+            <End Role="Материал" EntitySet="Материал" />
+            <End Role="СоставПокупки" EntitySet="СоставПокупки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СоставПокупки_Покупка" Association="Self.FK_СоставПокупки_Покупка">
+            <End Role="Покупка" EntitySet="Покупка" />
+            <End Role="СоставПокупки" EntitySet="СоставПокупки" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище УютныйДомModelContainer" CdmEntityContainer="УютныйДомEntities">
+          <EntitySetMapping Name="Материал">
+            <EntityTypeMapping TypeName="УютныйДомModel.Материал">
+              <MappingFragment StoreEntitySet="Материал">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+                <ScalarProperty Name="ЦенаЗаКвМетр" ColumnName="ЦенаЗаКвМетр" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Покупка">
+            <EntityTypeMapping TypeName="УютныйДомModel.Покупка">
+              <MappingFragment StoreEntitySet="Покупка">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="ДатаПокупки" ColumnName="ДатаПокупки" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="СоставПокупки">
+            <EntityTypeMapping TypeName="УютныйДомModel.СоставПокупки">
+              <MappingFragment StoreEntitySet="СоставПокупки">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Материал" ColumnName="Материал" />
+                <ScalarProperty Name="Ширина" ColumnName="Ширина" />
+                <ScalarProperty Name="Длина" ColumnName="Длина" />
+                <ScalarProperty Name="Сумма" ColumnName="Сумма" />
+                <ScalarProperty Name="Покупка" ColumnName="Покупка" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
